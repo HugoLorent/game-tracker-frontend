@@ -1,0 +1,12 @@
+<form [formGroup]="signUpForm" (ngSubmit)="handleSubmit()">
+  <label>
+    Name:
+    <input type="text" formControlName="name">
+  </label>
+
+  <label>
+    Password:
+    <input type="password" formControlName="password">
+  </label>
+  <button type="submit" [disabled]="!signUpForm.valid">Submit</button>
+</form>

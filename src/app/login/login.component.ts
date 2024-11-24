@@ -6,19 +6,19 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthenticationService } from '../core/services/authentication.service';
-import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-sign-up',
+  selector: 'app-login',
   standalone: true,
   imports: [ReactiveFormsModule],
-  templateUrl: './sign-up.component.html',
-  styleUrl: './sign-up.component.css',
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css',
 })
-export class SignUpComponent implements OnDestroy {
+export class LoginComponent implements OnDestroy {
   private ngUnsubscribe = new Subject<void>();
-  public signUpForm = new FormGroup({
+  public loginForm = new FormGroup({
     name: new FormControl('', {
       nonNullable: true,
       validators: Validators.required,
@@ -35,17 +35,17 @@ export class SignUpComponent implements OnDestroy {
   ) {}
 
   public handleSubmit(): void {
-    if (this.signUpForm.value.name && this.signUpForm.value.password) {
+    if (this.loginForm.value.name && this.loginForm.value.password) {
       this.authenticationService
-        .signUp({
-          name: this.signUpForm.value.name,
-          password: this.signUpForm.value.password,
+        .login({
+          name: this.loginForm.value.name,
+          password: this.loginForm.value.password,
         })
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe({
-          next: (user) => {
-            console.log(user);
-            this.router.navigate(['/login']);
+          next: (accessToken) => {
+            console.log(accessToken);
+            this.router.navigate(['/']);
           },
           error: (error) => {
             console.error(error);

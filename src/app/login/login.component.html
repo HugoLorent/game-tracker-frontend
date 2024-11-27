@@ -1,25 +1,33 @@
-<div class="column">
-  <h1 class="title">Login</h1>
-  <form [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
-    <div class="field">
-      <label class="label">Name:</label>
-      <div class="control">
-        <input class="input" type="text" formControlName="name">
+<div class="columns">
+  <div class="column is-half is-offset-one-quarter">
+    <h1 class="title is-1">Login</h1>
+    <form [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
+      <div class="field">
+        <label class="label">Username:</label>
+        <div class="control has-icons-left">
+          <input class="input" type="text" formControlName="name" placeholder="Username">
+          <span class="icon is-small is-left">
+            <i class="fas fa-user"></i>
+          </span>
+        </div>
       </div>
-    </div>
 
 
-    <div class="field">
-      <label class="label">Password:</label>
-      <div class="control">
-        <input class="input" type="password" formControlName="password">
+      <div class="field">
+        <label class="label">Password:</label>
+        <div class="control has-icons-left">
+          <input class="input" type="password" formControlName="password" placeholder="Password">
+          <span class="icon is-small is-left">
+            <i class="fas fa-lock"></i>
+          </span>
+        </div>
       </div>
-    </div>
 
-    <div class="field">
-      <div class="control">
-        <button class="button is-link" type="submit" [disabled]="!loginForm.valid">Login</button>
+      <div class="field">
+        <div class="control">
+          <button class="button is-primary" type="submit" [disabled]="!loginForm.valid">Login</button>
+        </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>

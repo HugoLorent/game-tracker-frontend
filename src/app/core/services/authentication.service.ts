@@ -3,8 +3,9 @@ import {
   AccessToken,
   Authentication,
   User,
+  UserPayload,
 } from '../interfaces/authentication.interface';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -12,6 +13,9 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthenticationService {
+  public user$ = new BehaviorSubject<UserPayload | undefined>(
+    this.getUserPayload()
+  );
   private baseUrl = 'http://localhost:3000';
 
   constructor(
@@ -30,6 +34,9 @@ export class AuthenticationService {
         tap({
           next: (accessToken) => {
             localStorage.setItem('access_token', accessToken.access_token);
+            this.user$.next(
+              this.getUserPayloadFromToken(accessToken.access_token)
+            );
           },
         })
       );
@@ -37,22 +44,20 @@ export class AuthenticationService {
 
   public logout(): void {
     localStorage.removeItem('access_token');
+    this.user$.next(undefined);
     this.router.navigate(['/login']);
   }
 
-  public isAuthenticated(): boolean {
+  private getUserPayload(): UserPayload | undefined {
     const accessToken = localStorage.getItem('access_token');
-    if (!accessToken) {
-      console.log('No token found');
-      return false;
+    if (accessToken) {
+      return this.getUserPayloadFromToken(accessToken);
     }
+    return undefined;
+  }
 
-    const tokenExpirationInMs =
-      JSON.parse(atob(accessToken.split('.')[1])).exp * 1000;
-    if (Date.now() > tokenExpirationInMs) {
-      console.log('Token expired');
-      return false;
-    }
-    return true;
+  private getUserPayloadFromToken(accessToken: string): UserPayload {
+    const payload = atob(accessToken.split('.')[1]);
+    return JSON.parse(payload);
   }
 }

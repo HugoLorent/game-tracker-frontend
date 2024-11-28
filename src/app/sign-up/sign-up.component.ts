@@ -43,8 +43,7 @@ export class SignUpComponent implements OnDestroy {
         })
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe({
-          next: (user) => {
-            console.log(user);
+          next: () => {
             this.router.navigate(['/login']);
           },
           error: (error) => {

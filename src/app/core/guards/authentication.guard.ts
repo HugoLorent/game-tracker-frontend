@@ -1,13 +1,22 @@
 import { inject } from '@angular/core';
-import { CanActivateFn } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 
 export const AuthenticationGuard: CanActivateFn = () => {
   const authenticationService = inject(AuthenticationService);
+  const router = inject(Router);
 
-  if (!authenticationService.isAuthenticated()) {
-    authenticationService.logout();
-    return false;
+  if (authenticationService.user$.getValue()) {
+    const tokenExpirationInMs =
+      authenticationService.user$.getValue()!.exp * 1000;
+    if (Date.now() > tokenExpirationInMs) {
+      console.log('Token expired');
+      authenticationService.logout();
+      return false;
+    }
+    return true;
   }
-  return true;
+  console.log('No token found');
+  router.navigate(['/login']);
+  return false;
 };

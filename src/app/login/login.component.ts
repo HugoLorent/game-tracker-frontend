@@ -43,8 +43,7 @@ export class LoginComponent implements OnDestroy {
         })
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe({
-          next: (accessToken) => {
-            console.log(accessToken);
+          next: () => {
             this.router.navigate(['/']);
           },
           error: (error) => {

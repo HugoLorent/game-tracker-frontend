@@ -5,9 +5,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { AuthenticationService } from '../core/services/authentication.service';
 import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../core/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-login',

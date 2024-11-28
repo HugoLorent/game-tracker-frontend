@@ -1,1 +1,3 @@
-<p>home works!</p>
+@for (collection of collections$ | async; track $index) {
+<p>{{ collection.name }}</p>
+}

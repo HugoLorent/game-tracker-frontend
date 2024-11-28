@@ -4,7 +4,7 @@ import {
   Authentication,
   User,
   UserPayload,
-} from '../interfaces/authentication.interface';
+} from '../../interfaces/authentication.interface';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
